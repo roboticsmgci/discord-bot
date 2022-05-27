@@ -1,16 +1,44 @@
-# This is a sample Python script.
+from pathlib import Path
 
-# Press F5 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from discord import Activity
+from discord import ActivityType
+from discord import Intents
+from discord import Status
+from discord.ext.commands import Bot
+
+from data import read
+from data.constants import GUILD
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+class CommandsBot(Bot):
+
+    def __init__(self):
+
+        super().__init__(
+            activity=Activity(
+                name="8574",
+                type=ActivityType.watching),
+            command_prefix="aanniimmee",
+            help_command=None,
+            intents=Intents(
+                guilds=True,
+                guild_messages=True,
+                message_content=True),
+            status=Status.online)
+
+    async def setup_hook(self) -> None:
+
+        for command in Path("ext").glob("*.py"):
+            command = str(command).replace("\\", ".").replace("/", ".")[:-3]
+            if command not in ("ext._template", "ext.error_handler"):
+                # Load ext
+                await self.load_extension(command)
+                print(f"Loaded {command}")
+
+        print()
+        self.tree.copy_global_to(guild=GUILD)
+        await self.tree.sync(guild=GUILD)
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+bot = CommandsBot()
+bot.run(read("config", "token"))
