@@ -5,5 +5,4 @@
 
 
 ## To-Do List
- - Rewrite using `discord.ext.commands.Cogs`
  - Reads information from The Blue Alliance
