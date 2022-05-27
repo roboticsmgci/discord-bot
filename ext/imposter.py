@@ -1,5 +1,6 @@
-from re import sub
-from random import randint, choice
+from random import choice
+from random import randint
+from re import sub, search
 
 from aiohttp import ClientSession
 from discord import Colour
@@ -125,6 +126,22 @@ class Imposter(GroupCog, group_name="imposter"):
              "(づ￣ ³￣)づ", "(っಠ‿ಠ)っ", "(つ✧ω✧)つ", "⊂( ´ ▽ ` )⊃", "(^_<)〜☆", "(￣ ;;￣)",
              "┬┴┬┴┤(･_├┬┴┬┴", "(^=◕ᴥ◕=^)", "ଲ(ⓛ ω ⓛ)ଲ", "	ʕ •̀ ω •́ ʔ", "／(＞×＜)＼", "(っ˘ڡ˘ς)"]
             + ["nya"] * 3 + ["nye"] * 3 + ["peko"] * 2 + [""] * 10)
+
+        # Remove mass mention
+        text = text.replace("@everyone", "@everyonе").replace("@here", "@herе")
+        # Remove role mention
+        pattern = r"<@&([0-9]{18})>"
+        res = search(pattern, text)
+        while res is not None:
+            try:
+                mentioned_role = message.guild.get_role(int(res.group()[3:-1]))
+                if mentioned_role is None:
+                    raise ValueError
+            except ValueError:
+                text = text.replace(res.group(), "@deleted-role")
+            else:
+                text = text.replace(res.group(), f"@{mentioned_role.name}")
+            res = search(pattern, text)
 
         await message.delete()
         await message.channel.send(text)
