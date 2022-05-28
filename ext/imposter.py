@@ -149,7 +149,6 @@ class Imposter(GroupCog, group_name="imposter"):
             else:
                 text = text.replace(res.group(), f"@{mentioned_role.name}")
             res = search(pattern, text)
-        print(f"6{text}6")
 
         await message.delete()
         await message.channel.send(text)
