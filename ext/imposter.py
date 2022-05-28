@@ -19,6 +19,17 @@ from data.constants import ELEVATED_USERS
 from data.constants import GUILD
 
 
+def random_ending():
+    return choice(
+        ["uwu", "owo", "(ᵘʷᵘ)", "(◡ ω ◡)", "(˘ω˘)", "(˘ε˘)", "( ´ω` )", "(*ฅ́˘ฅ̀*)", "ღ(U꒳Uღ)",
+         "(*´▽`*)", "(o^▽^o)", "＼(￣▽￣)／", "＼(＾▽＾)／", "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧", "( ◕▿◕ )", "(♡°▽°♡)",
+         "♡＼(￣▽￣)／♡", "(⁄ ⁄•⁄ω⁄•⁄ ⁄)", "(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)", "╮(￣～￣)╭", "(◎ ◎)ゞ", "(￢_￢)",
+         "(⊙_⊙)", "(・∀・)ノ", "	＼(⌒▽⌒)", "	(o´▽`o)ﾉ", "ヾ(・ω・*)", "(≧▽≦)/", "(*・ω・)ﾉ",
+         "(づ￣ ³￣)づ", "(っಠ‿ಠ)っ", "(つ✧ω✧)つ", "⊂( ´ ▽ ` )⊃", "(^_<)〜☆", "(￣ ;;￣)",
+         "┬┴┬┴┤(･_├┬┴┬┴", "(^=◕ᴥ◕=^)", "ଲ(ⓛ ω ⓛ)ଲ", "	ʕ •̀ ω •́ ʔ", "／(＞×＜)＼", "(っ˘ڡ˘ς)"]
+        + ["nya"] * 3 + ["nye"] * 3 + ["peko"] * 2 + [""] * 10)
+
+
 async def setup(bot):
     await bot.add_cog(Imposter(bot), guild=GUILD)
 
@@ -109,8 +120,8 @@ class Imposter(GroupCog, group_name="imposter"):
         text = sub(r"N([aeiou])", r"Ny\1", text)
         text = sub(r"N([AEIOU])", r"Ny\1", text)
 
-        # Stturu
-        words = text.split()
+        # Stutter
+        words = text.split(" ")
         for i in range(len(words)):
             for prefix in ("i", "I", "d", "D", "n", "N", "w", "W"):
                 if words[i].startswith(prefix):
@@ -118,14 +129,10 @@ class Imposter(GroupCog, group_name="imposter"):
                         words[i] = f"{prefix}-{prefix}{words[i][1:]}"
         text = " ".join(words)
 
-        text = f"{text} " + choice(
-            ["uwu", "owo", "(ᵘʷᵘ)", "(◡ ω ◡)", "(˘ω˘)", "(˘ε˘)", "( ´ω` )", "(*ฅ́˘ฅ̀*)", "ღ(U꒳Uღ)",
-             "(*´▽`*)", "(o^▽^o)", "＼(￣▽￣)／", "＼(＾▽＾)／", "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧", "( ◕▿◕ )", "(♡°▽°♡)",
-             "♡＼(￣▽￣)／♡", "(⁄ ⁄•⁄ω⁄•⁄ ⁄)", "(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)", "╮(￣～￣)╭", "(◎ ◎)ゞ", "(￢_￢)",
-             "(⊙_⊙)", "(・∀・)ノ", "	＼(⌒▽⌒)", "	(o´▽`o)ﾉ", "ヾ(・ω・*)", "(≧▽≦)/", "(*・ω・)ﾉ",
-             "(づ￣ ³￣)づ", "(っಠ‿ಠ)っ", "(つ✧ω✧)つ", "⊂( ´ ▽ ` )⊃", "(^_<)〜☆", "(￣ ;;￣)",
-             "┬┴┬┴┤(･_├┬┴┬┴", "(^=◕ᴥ◕=^)", "ଲ(ⓛ ω ⓛ)ଲ", "	ʕ •̀ ω •́ ʔ", "／(＞×＜)＼", "(っ˘ڡ˘ς)"]
-            + ["nya"] * 3 + ["nye"] * 3 + ["peko"] * 2 + [""] * 10)
+        # Ending ehe
+        text = f"{text} " + random_ending()
+        # Line ending ehe
+        text = "\n".join(f"{line} {random_ending()}" if line != "" else "" for line in text.split("\n"))
 
         # Remove mass mention
         text = text.replace("@everyone", "@everyonе").replace("@here", "@herе")
@@ -142,6 +149,7 @@ class Imposter(GroupCog, group_name="imposter"):
             else:
                 text = text.replace(res.group(), f"@{mentioned_role.name}")
             res = search(pattern, text)
+        print(f"6{text}6")
 
         await message.delete()
         await message.channel.send(text)
