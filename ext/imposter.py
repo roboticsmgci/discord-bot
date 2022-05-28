@@ -130,8 +130,6 @@ class Imposter(GroupCog, group_name="imposter"):
         text = " ".join(words)
 
         # Ending ehe
-        text = f"{text} " + random_ending()
-        # Line ending ehe
         text = "\n".join(f"{line} {random_ending()}" if line != "" else "" for line in text.split("\n"))
 
         # Remove mass mention
