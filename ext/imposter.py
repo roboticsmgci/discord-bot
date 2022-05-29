@@ -118,7 +118,7 @@ class Imposter(GroupCog, group_name="imposter"):
         text = sub(r"n([aeiou])", r"ny\1", text)
         text = sub(r"n([AEIOU])", r"ny\1", text)
         text = sub(r"N([aeiou])", r"Ny\1", text)
-        text = sub(r"N([AEIOU])", r"Ny\1", text)
+        text = sub(r"N([AEIOU])", r"NY\1", text)
 
         # Stutter
         words = text.split(" ")
