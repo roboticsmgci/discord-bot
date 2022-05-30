@@ -1,6 +1,7 @@
 from random import choice
 from random import randint
-from re import sub, search
+from re import search
+from re import sub
 
 from aiohttp import ClientSession
 from discord import Colour
@@ -12,7 +13,6 @@ from discord.app_commands import describe
 from discord.app_commands import guilds
 from discord.ext.commands import Cog
 from discord.ext.commands import GroupCog
-from datetime import datetime, timezone
 
 from data import read
 from data import write_value

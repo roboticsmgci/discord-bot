@@ -3,7 +3,8 @@ from discord.app_commands import command
 from discord.app_commands import guilds
 from discord.ext.commands import Cog
 
-from data.constants import GUILD, ELEVATED_USERS
+from data.constants import ELEVATED_USERS
+from data.constants import GUILD
 
 
 async def setup(bot):
